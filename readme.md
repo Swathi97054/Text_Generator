@@ -60,7 +60,7 @@ pip install -r requirements.txt
 
 #### 5. Run the FastAPI Application
 ```bash
-uvicorn llm1:app --reload --host 0.0.0.0 --port 8000
+uvicorn textgen:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### Option 2: Docker Deployment
