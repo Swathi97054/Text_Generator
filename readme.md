@@ -67,7 +67,7 @@ uvicorn textgen:app --reload --host 0.0.0.0 --port 8000
 
 #### 1. Build and Run with Docker Compose
 ```bash
-docker-compose up --build
+docker compose up -d --build
 ```
 
 This will:
@@ -80,6 +80,78 @@ This will:
 - API: http://localhost:8000
 - API Documentation: http://localhost:8000/docs
 - Database: localhost:5432
+
+---
+
+### 🐳 Docker Commands (Cheat Sheet)
+
+#### Build Image
+```bash
+docker build -t textgen-api:latest .
+```
+
+#### Run Container (simple)
+```bash
+# Windows/Mac (LM Studio on host)
+docker run -it --rm \
+  -p 8000:8000 \
+  --name textgen_api \
+  -e LM_STUDIO_HOST=host.docker.internal \
+  -e LM_STUDIO_PORT=1234 \
+  textgen-api:latest
+```
+
+```bash
+# Linux (map host.docker.internal for host-gateway)
+docker run -it --rm \
+  -p 8000:8000 \
+  --name textgen_api \
+  --add-host=host.docker.internal:host-gateway \
+  -e LM_STUDIO_HOST=host.docker.internal \
+  -e LM_STUDIO_PORT=1234 \
+  textgen-api:latest
+```
+
+#### Run with Logs Volume
+```bash
+# Linux/Mac
+docker run -it --rm -p 8000:8000 --name textgen_api \
+  -v "$(pwd)/logs:/app/logs" \
+  -e LM_STUDIO_HOST=host.docker.internal -e LM_STUDIO_PORT=1234 \
+  textgen-api:latest
+```
+
+```powershell
+# Windows PowerShell
+docker run -it --rm -p 8000:8000 --name textgen_api \
+  -v ${PWD}\logs:/app/logs \
+  -e LM_STUDIO_HOST=host.docker.internal -e LM_STUDIO_PORT=1234 \
+  textgen-api:latest
+```
+
+#### Useful Commands
+```bash
+# Follow logs
+docker logs -f textgen_api
+
+# Exec into container
+docker exec -it textgen_api /bin/bash
+
+# Stop and remove container
+docker stop textgen_api && docker rm textgen_api
+```
+
+#### Docker Compose
+```bash
+# Up (build in background)
+docker compose up -d --build
+
+# Tail logs
+docker compose logs -f web
+
+# Stop and remove containers, networks, volumes
+docker compose down -v
+```
 
 ---
 
