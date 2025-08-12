@@ -4,7 +4,7 @@ services:
   web:
     build: .
     container_name: llm_api
-    command: uvicorn log_llm:router --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn textgen:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     volumes:
